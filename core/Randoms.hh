@@ -90,6 +90,12 @@ public:
       * REMEMBER TO MANUALY REMOVE THE RETURNED ARRAY
       */
      double * getDicreteAlphaStableVector ( double alpha, double sigma );
+     
+     
+     
+         // losowanie z rozkladu
+    // f(t) = lamba * e^(-lambda t)
+    double getSpecialDist1(double lambda);
 };
 
 #endif

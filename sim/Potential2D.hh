@@ -2,6 +2,7 @@
 #define __POTENTIAL2D__CC__
 
 #include "Randoms.hh"
+#include "Settings.hh"
 
 using namespace std;
 
@@ -76,21 +77,27 @@ public:
     ~Potential2D();
 
     /**
-     * Return the value of V(x,t)
+     * Return the value of V(x, y,t)
      */
-    double getValue(double &x, long double &t);
+    vec getValue(double &x, double &y, long double &t);
 
     // overloaded operator() for convinience
-    double operator()(double &x, long double &t) {
-        return this->getValue(x,t);
+    vec operator()(double &x,double &y,  long double &t) {
+        return this->getValue(x,y,t);
     }
+    
 
-    double operator()(double x, long double t) {
-        return this->getValue(x,t);
-    }
+//     double operator()(double x, double &y,  long double t) {
+//         return this->getValue(x,t);
+//     }
     
   //reset potential state and draw new initial value
 	void reset() { this->init(); }
+
+	
+	     
+    const char * toString() { return "V(x,y,t) = H * sqrt( x^2 + y^2) ";}
+
 
 };
 

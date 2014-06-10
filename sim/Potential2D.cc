@@ -85,34 +85,49 @@ void Potential2D::switchBarrier(long double &currentTime)
 }
 
 
-double Potential2D::getValue(double &x, long double &t)
+vec Potential2D::getValue(double &x, double &y, long double &t)
 {
     double value = 0.0;
 
    
-
+    vec V;
     /*
-     * simple V(x,t) = A x
+     * simple V(x,t) = H r = H sqrt( x^2 + y^2)
      * 
      * this actually returns V'(x,t)  
-     * so  V'(x,t) = A;
+     * so  (d/dx) V(x,y, t) =  H  * x/sqrt( x^2 + y^2)
+     * (d/dy) V(x,y, t) =  H  * y/sqrt( x^2 + y^2)
      */
-    if ( t >= timeOfNextSwitch )
-    {
-        this->switchBarrier(t);
+    
+    double sqr = sqrt( x*x + y*y );
+    
+    if( x==0.0 && y==0.0) { 
+      V.x = 0.0;
+      V.y = 0.0;
     }
+    else {
+    
+      if ( t >= timeOfNextSwitch )
+      {
+          this->switchBarrier(t);
+      }
 
-    if ( this->state == barrier_state:: up_state )
-    {
-        value = top_value;
+      if ( this->state == barrier_state:: up_state )
+      {
+          value = top_value;
+      }
+      else // if (this->state = barrier_state :: down_state )
+      {
+          value = bottom_value;
+      }
+      
+      V.x = (value * x)/(sqr);
+      V.y = (value * y)/(sqr);
+      
     }
-    else // if (this->state = barrier_state :: down_state )
-    {
-        value = bottom_value;
-    }
-
-//      cout << "get V( x = " << x << ", t = " << t << ") =  "<< value  <<endl;
-    return value;
+    
+//     cout << "get V( x = " << x << ",y = " << y << " t = " << t << ") =  "<<  "("  << V.x  << ","<<V.y << ")"  <<endl;
+    return V;
 }
 
 

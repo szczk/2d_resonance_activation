@@ -23,70 +23,50 @@ int main ( int argc, char **argv )
      settings.printParameters();
 
 
-     double alpha = settings.getJumpsParameter();
-     //...
-
-     Randoms * rand  = new Randoms();
-     rand->reset();
-
-     double maxT = settings.get ( "maxT" );
-     double dt = settings.get("dt");
-
      double num = settings.getNtrajectories();
      int tenPerc = ( num>10 ) ? ( int ) ( num*0.1 ) : 1;
 
 
-     int potentialType = settings.get ( "POTENTIAL_TYPE" );
      int noiseType = settings.get ( "NOISE_TYPE" );
+     double eplus = settings.get("eplus");
+     double eminus = settings.get("eminus");
+     double alpha = settings.getJumpsParameter();
+     
      
      
      Simulation * sim = new Simulation ( &settings );
 
+     
+    cout << "entering loop"<<endl;
+    
+    for (double p = -5.0; p< 4.0; p += 0.1 )
+    {
+
+        double gamma = pow(10.0,p);
+
+        
+        cout << " p = " << p << " gamma = " << gamma << endl;
+        
+        sim->setGamma( gamma );
+        
+
+    
      char dataFile[200];
      if ( settings.multipleOutputs() ) {
           cout << " multiple outputs! generating file #" << settings.getMultipleOutputFilenum() <<endl;
           //wielokrotny output, wyjsciowy plik dat musi miec numerek przyslany z zewnatrz
-          sprintf ( dataFile,"%s/%s_alpha_%1.2f_p%d_n%d_xy_output_%d.dat",settings.getStoragePath(), settings.getFilesSuffix(), alpha, potentialType, noiseType, settings.getMultipleOutputFilenum() );
+          
+          sprintf ( dataFile,"%s/%s_alpha_%1.2f_n%d_Ep_%1.1f_Em_%1.1f_g_%1.1f_xy_output_%d.dat",settings.getStoragePath(), settings.getFilesSuffix(), alpha,  noiseType, eplus,eminus, p , settings.getMultipleOutputFilenum() );
      } else {
           // wszystko do jednego pliku
-          sprintf ( dataFile,"%s/%s_alpha_%1.2f_p%d_n%d_xy_output.dat",settings.getStoragePath(), settings.getFilesSuffix(), alpha , potentialType, noiseType );
+          sprintf ( dataFile,"%s/%s_alpha_%1.2f_n%d_Ep_%1.1f_Em_%1.1f_g_%1.1f_xy_output.dat",settings.getStoragePath(), settings.getFilesSuffix(), alpha ,  noiseType ,eplus,eminus, p );
      }
 
-     // korzystamy z Datafile
-     // WARNING;  datafile jest tylko seria liczb, a tu zapisujemy wektor
-     // wiec przy czytaniou trzeba pamietac o tym ze zapisujemy 2 skladowe po kolei
-     // i potem trzeba to tak czytac po 2 naraz
+     
+     
      Datafile * data = Datafile::create ( dataFile );
 
-//      ofstream output ( dataFile, ios_base::trunc | ios_base::out );
-
-     
-     // create dump times
-     map<int, Datafile *> * dumps = new map<int, Datafile *>();
-     double t = 0.0;
-     for(int iter=0; t<maxT; iter++)  {
         
-        
-        if( !settings.isDumpTime(iter) ) {
-          t+= dt;
-          continue;
-        }
-        
-//         cout << " dump file t=" << t << "\titeration="<<iter<<endl;
-        
-        if ( settings.multipleOutputs() ) {
-            
-            sprintf ( dataFile,"%s/%s_alpha_%1.2f_p%d_n%d_xy_t_%2.3f_output_%d.dat",settings.getStoragePath(), settings.getFilesSuffix(), alpha, potentialType, noiseType, t, settings.getMultipleOutputFilenum() );
-        } else {
-            sprintf ( dataFile,"%s/%s_alpha_%1.2f_p%d_n%d_xy_t_%2.3f_output.dat",settings.getStoragePath(), settings.getFilesSuffix(), alpha , potentialType, noiseType, t );
-        }
-        Datafile * d = Datafile::create ( dataFile );
-        
-//         cout <<"map key="<<iter<<endl;
-        dumps->insert ( pair<int, Datafile*> ( iter , d ) );
-        t+= dt;
-     }
-     
      
      
      
@@ -96,29 +76,18 @@ int main ( int argc, char **argv )
           }
 
 
-          vec X = sim->run ( settings.getJumpsParameter() ,maxT , dumps );
+          double t = sim->run();
 
-//           output << X.x <<"\t"<<X.y<<"\n";
-          data->write ( X.x );
-//           data->write ( X.y );
+          data->write ( t );
+
      }
 
 //      output.close();
      data->close();
 
-     cout << "closing dumps"<<endl;
 
-     for( auto it = dumps->begin(); it != dumps->end(); ++it) {
-       (it->second)->close();
-       delete (it->second);
-     }
+    }
      
-     delete dumps;
-
-
-
-
-     delete rand;
 
      sys.finish();
      sys.printTimeSummary();

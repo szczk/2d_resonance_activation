@@ -1,231 +1,121 @@
 #include "main.hh"
-#include <gsl/gsl_histogram2d.h>
-#include <gsl/gsl_histogram.h>
-#include <fstream>
 
-#include "analysis/HistogramsProducer.hh"
-#include "analysis/EDFProducer.hh"
+#include <cstdlib>
+#include <cmath>
+#include <sys/stat.h>
 
 
+#include "tools/Datafile.hh"
 
-// tmp: /mnt/lustre/scratch/people/ufszczep/";
-// storage: /storage/ufszczep/
-char filePrefix[200] = "";
+#include "analysis/DichotomicAnalysis.hh"
+#include "tools/DatafilesChain.hh"
 
-int main ( int argc, char **argv )
+int main(int argc , char ** argv)
 {
-     cout << endl << endl;
 
-     System& sys = System::getInstance();
-     sys.start();
+    cout << endl << endl;
 
-     sys.printInfo();
+    System& sys = System::getInstance();
+    sys.start();
 
-     Settings& settings = Settings:: getInstance ( "settings.dat" );
-     settings.readCommandLineParameters ( argc,argv );
-     settings.printParameters();
 
+    Settings& settings = Settings:: getInstance (  );
 
-     double maxT = settings.get ( "maxT" );
-     double alpha = settings.getJumpsParameter();
 
+// "settings.dat"
 
 
-//      HistogramsProducer * producer = new HistogramsProducer ( &settings );
-//      producer->setTime ( maxT );
 
-     EDFProducer * edfProducer = new EDFProducer ( &settings );
+    // override parameters from command line
+    settings.readCommandLineParameters ( argc,argv );
 
-     edfProducer->setTime ( maxT );
+    settings.printParameters();
+    settings.dumpToFile ( "params.txt" );
 
+    int noiseType = settings.get ( "NOISE_TYPE" );
+    double eplus = settings.get("eplus");
+    double eminus = settings.get("eminus");
+    double alpha = settings.getJumpsParameter();
+    
 
-     char dataFile[200];
+    cout << "entering loop"<<endl;
 
-     int potentialType = settings.get ( "POTENTIAL_TYPE" );
-     int noiseType = settings.get ( "NOISE_TYPE" );
+//     ResultAnalysis * result = new ResultAnalysis(&settings);
 
-     DataSource * data = nullptr ;
+    DichotomicAnalysis * dichotomicAnalysis = new DichotomicAnalysis();
 
-     if ( settings.multipleOutputs() ) {
-          sprintf ( dataFile,"%s/%s_alpha_%1.2f_p%d_n%d_xy_output_{NUM}.dat",settings.getDataPath(),settings.getFilesSuffix(), alpha, potentialType, noiseType );
+    for (double p = -5.0; p< -1.5; p += 0.1 )
+    {
 
-          // multiple inputs, we will use chained input files
-          int filesNum = settings.getMultipleOutputFilenum();  // use this number as max-number indicator
+        double gamma = pow(10.0,p);
+        double averageTime = 0.0;
+        double averageNum = 0.0;
 
-          cout << "opening "<< filesNum << "chain files "<< dataFile << endl;
-          data = new DatafilesChain ( dataFile ,1, filesNum );
-     } else {
+//         ExtremeStats * es = new ExtremeStats(10);
 
-          sprintf ( dataFile,"%s/%s_alpha_%1.2f_p%d_n%d_xy_output.dat",settings.getDataPath(), settings.getFilesSuffix(),alpha , potentialType, noiseType );
+        char dataFile[200];
+        
 
-          cout << "opening single file '"<< dataFile<< "'" <<endl;
-          data = Datafile::open ( dataFile );
-     }
+    
+    DataSource * data = nullptr ;
+    
+    if( settings.multipleOutputs() ) 
+    {
+      sprintf ( dataFile,"%s/%s_alpha_%1.2f_n%d_Ep_%1.1f_Em_%1.1f_g_%1.1f_xy_output_{NUM}.dat",settings.getStoragePath(), settings.getFilesSuffix(), alpha,  noiseType, eplus,eminus, p );
+      
+      // multiple inputs, we will use chained input files
+      int filesNum = settings.getMultipleOutputFilenum();  // use this number as max-number indicator
+      
+      cout << "opening "<< filesNum << "chain files "<< dataFile << endl;
+      data = new DatafilesChain(dataFile ,1, filesNum);
+    }
+    else {
+      cout << "opening single file"<<endl;
+       sprintf ( dataFile,"%s/%s_alpha_%1.2f_n%d_Ep_%1.1f_Em_%1.1f_g_%1.1f_xy_output.dat",settings.getStoragePath(), settings.getFilesSuffix(), alpha ,  noiseType ,eplus,eminus, p );
+      data = Datafile::open(dataFile);
+    }
 
+        int count = data->getCount();
+        cout << "datafile contains " << count << " values"<<endl;
+        int tenPerc = (int) (count/10.0);
 
-     if ( data->ok() ) {
-          cout << "datafile ok"<<endl;
-     } else {
-          cout << "datafile not ok" <<endl;
-          return 0;
-     }
-     int count = data->getCount() /2; //wektor 2 wartosci
-     cout << "datafile contains " << count << " values"<<endl;
-     int tenPerc = ( int ) ( count/10.0 );
+        int c = 0;
+        while(data->hasNext())
+        {
+            if(c%tenPerc==0) cout<< c << "/" << count <<endl;
 
-     int c = 0;
-     while ( data->hasNext() ) {
-          if ( c%tenPerc==0 ) cout<< c << "/" << count <<endl;
+            double time = data->read();
 
-          double x = data->read();
-          double y = data->read();
 
+//             es->fill(time);
+//             result->addValue(gamma,time);
+            averageTime = averageTime + ((time - averageTime)/(averageNum + 1.0));
+            averageNum += 1.0;
 
-//           producer->fill ( x,y );
-          edfProducer->fill ( x, y );
+            ++c;
 
-          ++c;
-     }
+            dichotomicAnalysis->addValue(gamma,time);
+        }
 
-     data->close();
+        data->close();
 
+        double averageNew = dichotomicAnalysis->getAverage(gamma);
 
-//      producer->close();
-     edfProducer->close();
+        cout << "gamma=10^"<<p<<"\t MFPT: " << averageTime << " | " << averageNew << endl;;
 
-//      delete producer;
+    delete data;
+    }
+    dichotomicAnalysis->save();
 
-     delete edfProducer;
+    delete dichotomicAnalysis;
 
+    
+    
+    // alpha beta f(gamma=-\infty) f(gammma=+\infty) f_{min} gamma_{min}
+    
+    sys.finish();
+    sys.printTimeSummary();
 
 
-
-// ====================== t= 2
-
-
-     HistogramsProducer * producer_t2 = new HistogramsProducer ( &settings );
-     EDFProducer * edfProducer_t2 = new EDFProducer ( &settings );
-
-     producer_t2->setTime ( 2.0 );
-     
-     edfProducer_t2->setTime ( 2.0 );
-
-
-
-     if ( settings.multipleOutputs() ) {
-          sprintf ( dataFile,"%s/%s_alpha_%1.2f_p%d_n%d_xy_t_2.000_output_{NUM}.dat",settings.getDataPath(),settings.getFilesSuffix(), alpha, potentialType, noiseType );
-
-          // multiple inputs, we will use chained input files
-          int filesNum = settings.getMultipleOutputFilenum();  // use this number as max-number indicator
-
-          cout << "opening "<< filesNum << "chain files "<< dataFile << endl;
-          data = new DatafilesChain ( dataFile ,1, filesNum );
-     } else {
-
-          sprintf ( dataFile,"%s/%s_alpha_%1.2f_p%d_n%d_xy_t_2.000_output.dat",settings.getDataPath(), settings.getFilesSuffix(),alpha , potentialType, noiseType );
-
-          cout << "opening single file '"<< dataFile<< "'" <<endl;
-          data = Datafile::open ( dataFile );
-     }
-
-
-     if ( data->ok() ) {
-          cout << "datafile ok"<<endl;
-     } else {
-          cout << "datafile not ok" <<endl;
-          return 0;
-     }
-     count = data->getCount() /2; //wektor 2 wartosci
-     cout << "datafile contains " << count << " values"<<endl;
-     tenPerc = ( int ) ( count/10.0 );
-
-     c = 0;
-     while ( data->hasNext() ) {
-          if ( c%tenPerc==0 ) cout<< c << "/" << count <<endl;
-
-          double x = data->read();
-          double y = data->read();
-
-
-//           producer_t2->fill ( x,y );
-          edfProducer_t2->fill ( x,y );
-
-          ++c;
-     }
-
-     data->close();
-
-
-
-//      producer_t2->close();
-     edfProducer_t2->close();
-     
-//      delete producer_t2;
-     delete edfProducer_t2;
-
-     //================================ t = 4
-
-//      HistogramsProducer * producer_t4 = new HistogramsProducer ( &settings );
-     EDFProducer * edfProducer_t4 = new EDFProducer ( &settings );
-//      producer_t4->setTime ( 4.0 );
-     edfProducer_t4->setTime ( 4.0 );
-
-
-     if ( settings.multipleOutputs() ) {
-          sprintf ( dataFile,"%s/%s_alpha_%1.2f_p%d_n%d_xy_t_4.000_output_{NUM}.dat",settings.getDataPath(),settings.getFilesSuffix(), alpha, potentialType, noiseType );
-
-          // multiple inputs, we will use chained input files
-          int filesNum = settings.getMultipleOutputFilenum();  // use this number as max-number indicator
-
-          cout << "opening "<< filesNum << "chain files "<< dataFile << endl;
-          data = new DatafilesChain ( dataFile ,1, filesNum );
-     } else {
-
-          sprintf ( dataFile,"%s/%s_alpha_%1.2f_p%d_n%d_xy_t_4.000_output.dat",settings.getDataPath(), settings.getFilesSuffix(),alpha , potentialType, noiseType );
-
-          cout << "opening single file '"<< dataFile<< "'" <<endl;
-          data = Datafile::open ( dataFile );
-     }
-
-
-     if ( data->ok() ) {
-          cout << "datafile ok"<<endl;
-     } else {
-          cout << "datafile not ok" <<endl;
-          return 0;
-     }
-     count = data->getCount() /2; //wektor 2 wartosci
-     cout << "datafile contains " << count << " values"<<endl;
-     tenPerc = ( int ) ( count/10.0 );
-
-     c = 0;
-     while ( data->hasNext() ) {
-          if ( c%tenPerc==0 ) cout<< c << "/" << count <<endl;
-
-          double x = data->read();
-          double y = data->read();
-
-
-//           producer_t4->fill ( x,y );
-          edfProducer_t4->fill ( x,y );
-          ++c;
-     }
-
-     data->close();
-
-
-
-
-//      producer_t4->close();
-     edfProducer_t4->close();
-//      delete producer_t4;
-     delete edfProducer_t4;
-
-
-     sys.finish();
-     sys.printTimeSummary();
-
-     return 0;
+    return 0;
 }
-
-

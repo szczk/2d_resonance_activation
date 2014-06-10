@@ -52,9 +52,9 @@ void Settings::readCommandLineParameters ( int argc, char** argv )
                this->setDataPath ( argv[i+1] ) ;
           }
           
-          if ( strcmp ( "--prefix",argv[i] ) == 0  && ( i+1 ) < argc ) {
-               cout << " new files prefix: '" << argv[i+1] << "'" << endl;
-               this->setFilesPrefix ( argv[i+1] ) ;
+          if ( strcmp ( "--suffix",argv[i] ) == 0  && ( i+1 ) < argc ) {
+               cout << " new files suffix: '" << argv[i+1] << "'" << endl;
+               this->setFilesSuffix ( argv[i+1] ) ;
           }
           
 
@@ -112,8 +112,10 @@ void Settings:: init()
      this->setStoragePath ( "./" );
      this->setTmpPath ( "/tmp/" );
      this->setDataPath ( "./" );
-     this->setFilesPrefix("");
+     this->setFilesSuffix("");
      this->loadFromFile();
+     
+     this->loadDumpTimes();
 }
 
 void Settings:: close()
@@ -225,4 +227,41 @@ string  Settings::normalizePath ( const char* str )
 //     }
      return cc;
 }
+
+void Settings::loadDumpTimes() {
+     
+     double dump_every = this->get("dump_every");
+     double maxT = this->get ( "maxT");
+     double dt = this->get("dt");
+     
+     
+     if(dump_every > 0.0 && dump_every < maxT ) {
+       cout << "dump iterations: ";
+       
+       this->dumpTimes = new unordered_set<int>();
+       
+       for( double t = dump_every ; t < maxT; t+=dump_every ) {
+         int iter = t/dt;
+         cout << iter << ",";
+         
+         this->dumpTimes->insert( iter );
+       }
+       
+       
+       cout << endl;
+     }
+}
+
+bool Settings::isDumpTime(int iteration) {
+          if(this->dumpTimes!=nullptr) {      
+//             cout << setprecision(30) << t<<endl;
+//             for ( auto it = myset.begin(); it != myset.end(); ++it )
+//     std::cout << " " << *it;
+            return this->dumpTimes->count( iteration ); 
+          }
+          else {
+            cout <<"nullptr"<<endl;
+            return false;
+          }
+     }
 

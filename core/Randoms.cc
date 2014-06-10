@@ -235,3 +235,17 @@ double* Randoms::getDicreteAlphaStableVector ( double alpha, double sigma )
      return v;
 }
 
+
+double Randoms:: getSpecialDist1(double lambda)
+{
+    if(lambda==0.0) {
+      cerr << "dzielenie przez 0!" <<endl;
+      throw -1;
+    }
+    double u = this->getUniform(0,1.0);
+    
+    double x =(-1.0/lambda)  * log( u );
+  
+    return x;
+}
+

@@ -1,7 +1,7 @@
-ntrajectories = 5000000
+ntrajectories = 500
 
 #jumps parameter (superdiffusion)
-alpha = 1.0
+alpha = 2.0
 
 # waiting times parameter ( subdiffusion )
 beta = 1.0
@@ -19,20 +19,25 @@ dt = 1.0e-3
 # x0
 X0 = 0.0
 
-#noise intensity
+
+# circle radius 
+radius = 1.0
+
+#n
 NOISE_D = 1.0
 
-noise_d_start=0.1
-noise_d_end=6.0
-noise_d_inc=1
 
+#noise intensity
+T = 1.0
 
+# e plus e minus
+# actual value of E+ E-
+# is  E+ = eplus * T
+# E- = eminus * T
 
-NUM_THREADS = 4
+eplus=8.0
+eminus=0.0
 
-nbins = 200
-xmin = 0.0
-xmax = 100.0
 
 
 

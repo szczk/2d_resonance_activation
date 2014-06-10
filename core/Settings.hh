@@ -12,9 +12,17 @@
 #include <cmath>
 #include <cstring>
 #include <iomanip>
+#include <unordered_set>
+#include <iomanip>
 
 using namespace std;
 
+
+
+struct vec {
+     double x;
+     double y;
+};
 
 
 
@@ -42,7 +50,7 @@ private:
      ~Settings();
 
      void loadFromFile();
-
+     
      void init();
      void close();
 
@@ -57,10 +65,13 @@ private:
      // path for input .dat files
      string dataPath ;
 
-     // prefix for output files
-     string filesPrefix;
+     // suffix for output files
+     string filesSuffix;
 
      string normalizePath ( const char * );
+     
+     
+     
 
      // wskazuje na wielokrotne pliki wyjsciowe, uzywane w generator.cc
 
@@ -86,6 +97,14 @@ private:
       */
      bool multipleOutputFile;
      int multipleOutputFileNumber;
+     
+     
+     // czasy posrednie kiedy nalezy zapisywac 
+     // stan symulacji
+     // a dokladniej numer iteracji, a nei wartosc t!!
+     unordered_set<int> * dumpTimes;
+     void loadDumpTimes();
+     
 
 public:
 
@@ -253,13 +272,16 @@ public:
      }
 
 
-     void setFilesPrefix ( const char * sufix ) {
-          this->filesPrefix = normalizePath ( sufix );
+     void setFilesSuffix ( const char * sufix ) {
+          this->filesSuffix = normalizePath ( sufix );
      }
 
-     const char * getFilesPrefix() {
-          return this->filesPrefix.c_str();
+     const char * getFilesSuffix() {
+          return this->filesSuffix.c_str();
      }
+
+     bool isDumpTime(int iterationNum);
+     
 };
 
 

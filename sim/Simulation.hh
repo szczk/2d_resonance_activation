@@ -11,6 +11,7 @@
 using namespace std;
 
 struct  point {
+  
      double x;
      double y;
 
@@ -24,18 +25,13 @@ struct  point {
 
 
 
-struct vec {
-     double x;
-     double y;
-};
-
-
 class Simulation {
 
 
 private:
      Settings * settings;
      Randoms * rand;
+     Potential2D * potential;
 
 
      double x0 ;
@@ -44,12 +40,10 @@ private:
      double r_squared;
 
 
-     bool dump_gnuplot;
+     double gamma;
+      
+    
      bool verbose;
-
-
-     double angle_start;
-//   double angle_end;
 
 
      /**
@@ -90,42 +84,29 @@ private:
       */
      void norm ( vec & v );
 
-     /*
-      * obliczanie odbicia, przy zalozeniu ze start_point lezy w okregu
-      * a end_point za okregiem
-      *
-      */
-     point getNewTarget ( const point & start_point ,const point & end_point , point& odbicie_ref , ofstream & );
 
-
-     /**
-      * sprawdzanie czy punkt lezy na luku [0, angle]
-      *
-      */
-     bool pointOnArc ( double angle, point& );
 
 public:
      Simulation ( Settings * );
      ~Simulation();
 
-
+     void setGamma(double g) { if(g>0.0) this->gamma = g; }
      void setRadius ( double r ) {
-          if ( r>0.0 ) this->r = r;
+          if ( r>0.0 )  {
+            this->r = r;
+            this->r_squared = r*r;
+          }
+          
      }
 
      /**
-      * Simulate up to t = endTime and return value of X(t)
+      * symulacja az opusci okrag i zwraca t jaki uplynal
       */
-     double run ( double angle_end );
+     double run ( );
 
 
      void setVerbose ( bool v ) {
           this->verbose = v;
-     }
-
-
-     void setDumpGnuplot ( bool dg ) {
-          this->dump_gnuplot = dg;
      }
 
 
