@@ -116,6 +116,9 @@ double DatafilesChain::read() {
 }
 
 bool DatafilesChain::hasNext() {
+  
+  if(this->files->size()==0) return false;
+
   Datafile * file = this->files->at(this->currentFile);
   if(file->hasNext()) {
     return true; 

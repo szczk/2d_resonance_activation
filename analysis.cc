@@ -44,7 +44,7 @@ int main(int argc , char ** argv)
 
     DichotomicAnalysis * dichotomicAnalysis = new DichotomicAnalysis();
 
-    for (double p = -5.0; p< -1.5; p += 0.1 )
+    for (double p = -5.0; p< 5.0; p += 0.1 )
     {
 
         double gamma = pow(10.0,p);
@@ -61,7 +61,7 @@ int main(int argc , char ** argv)
     
     if( settings.multipleOutputs() ) 
     {
-      sprintf ( dataFile,"%s/%s_alpha_%1.2f_n%d_Ep_%1.1f_Em_%1.1f_g_%1.1f_xy_output_{NUM}.dat",settings.getStoragePath(), settings.getFilesSuffix(), alpha,  noiseType, eplus,eminus, p );
+      sprintf ( dataFile,"%s/%s_alpha_%1.2f_n%d_Ep_%1.1f_Em_%1.1f_g_%1.1f_xy_output_{NUM}.dat",settings.getDataPath(), settings.getFilesSuffix(), alpha,  noiseType, eplus,eminus, p );
       
       // multiple inputs, we will use chained input files
       int filesNum = settings.getMultipleOutputFilenum();  // use this number as max-number indicator
@@ -71,7 +71,7 @@ int main(int argc , char ** argv)
     }
     else {
       cout << "opening single file"<<endl;
-       sprintf ( dataFile,"%s/%s_alpha_%1.2f_n%d_Ep_%1.1f_Em_%1.1f_g_%1.1f_xy_output.dat",settings.getStoragePath(), settings.getFilesSuffix(), alpha ,  noiseType ,eplus,eminus, p );
+       sprintf ( dataFile,"%s/%s_alpha_%1.2f_n%d_Ep_%1.1f_Em_%1.1f_g_%1.1f_xy_output.dat",settings.getDataPath(), settings.getFilesSuffix(), alpha ,  noiseType ,eplus,eminus, p );
       data = Datafile::open(dataFile);
     }
 

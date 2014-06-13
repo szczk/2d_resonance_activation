@@ -1,4 +1,4 @@
-ntrajectories = 500
+ntrajectories = 1000000
 
 #jumps parameter (superdiffusion)
 alpha = 2.0

@@ -81,12 +81,12 @@ void Quantiles:: save()
      char quantiles_filename[200];
      char quantile_plotname[200];
 
-     sprintf ( quantiles_filename,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_quantiles.txt",settings.getStoragePath(), alpha,beta,eplus,eminus );
+     sprintf ( quantiles_filename,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_quantiles.txt",settings.getStoragePath(), alpha,eplus,eminus );
 
      ofstream quantiles_file ( quantiles_filename,ios_base::out );
 
      //to samo bez sciezki, do uzycia w skrypcie gnuplota
-     sprintf ( quantiles_filename,"alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_quantiles.txt",alpha,beta,eplus,eminus );
+     sprintf ( quantiles_filename,"alpha_%1.2f_Ep_%1.1f_Em_%1.1f_quantiles.txt",alpha,eplus,eminus );
 
      quantiles_file << "#log10(gamma)\tq1\tq2\tq3\tq4\tq5\tq6\tq7\tq8\tq9\t(q9-q1)\tlog10(q9-q1)\n";
 
@@ -169,11 +169,11 @@ void Quantiles:: save()
      // gnuplot
 
      char resultsPlotscriptfile[200];
-     sprintf ( resultsPlotscriptfile,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_plotquantiles.gnu",settings.getStoragePath(), alpha,beta,eplus,eminus );
+     sprintf ( resultsPlotscriptfile,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_plotquantiles.gnu",settings.getStoragePath(), alpha,eplus,eminus );
      ofstream gnuplot_file ( resultsPlotscriptfile,ios_base::out );
 
 
-     sprintf ( quantile_plotname,"alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_quantiles_plot_log.eps", alpha,beta,eplus,eminus );
+     sprintf ( quantile_plotname,"alpha_%1.2f_Ep_%1.1f_Em_%1.1f_quantiles_plot_log.eps", alpha,eplus,eminus );
 
      gnuplot_file<< "reset\n";
 //     gnuplot_file<< "set terminal pngcairo enhanced size 1200,700;\n";
@@ -203,7 +203,7 @@ void Quantiles:: save()
 
 
      // mediana
-     sprintf ( quantile_plotname,"alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_quantiles_plot_median.eps", alpha,beta,eplus,eminus );
+     sprintf ( quantile_plotname,"alpha_%1.2f_Ep_%1.1f_Em_%1.1f_quantiles_plot_median.eps", alpha,eplus,eminus );
 
      gnuplot_file<< "reset\n";
 //     gnuplot_file<< "set terminal pngcairo enhanced size 1200,700;\n";
@@ -235,7 +235,7 @@ void Quantiles:: save()
 
 
      gnuplot_file<< "reset\n";
-     sprintf ( quantile_plotname,"alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_quantiles_plot.eps", alpha,beta,eplus,eminus );
+     sprintf ( quantile_plotname,"alpha_%1.2f_Ep_%1.1f_Em_%1.1f_quantiles_plot.eps", alpha,eplus,eminus );
 
 //     gnuplot_file<< "set terminal pngcairo enhanced size 1200,700;\n";
      gnuplot_file<< "set terminal post eps size 12,7 enhanced color font 'Helvetica,35' linewidth 2;";
@@ -263,7 +263,7 @@ void Quantiles:: save()
      //===================================================================================
      // save extended_data
      char extendedDataFile[200];
-     sprintf ( extendedDataFile,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extdata_q9q1.txt",settings.getStoragePath(), alpha,beta,eplus,eminus );
+     sprintf ( extendedDataFile,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extdata_q9q1.txt",settings.getStoragePath(), alpha,eplus,eminus );
      ofstream extended ( extendedDataFile );
      extended << extended_data_header << endl;
      extended << alpha << "\t"<< beta;
@@ -277,7 +277,7 @@ void Quantiles:: save()
      extended << "\t" << q9q1_gamma_for_f_minimum;
      extended.close();
 
-     sprintf ( extendedDataFile,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extdata_median.txt",settings.getStoragePath(), alpha,beta,eplus,eminus );
+     sprintf ( extendedDataFile,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extdata_median.txt",settings.getStoragePath(), alpha,eplus,eminus );
      extended.open ( extendedDataFile );
      extended << extended_data_header << endl;
      extended << alpha << "\t"<< beta;

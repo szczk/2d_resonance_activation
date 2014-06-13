@@ -44,12 +44,13 @@ echo "\n"
 export LC_NUMERIC="en_US.UTF-8"
 
 pp=0
-for alpha in $(seq -w 0.5 0.2 1.9)
+num=20
+for alpha in $(seq -w 0.5 0.5 2.0)
 do
    for sigma in 1.0 #$(seq -w 0.2 0.2 5.0)
     do
-      for num in $(seq 1 10)
-        do
+     # for num in $(seq 1 5)
+      #  do
       #   for pp in $(seq -5 0.1 5)
        #   do
 	  echo "alpha = $alpha, sigma = $sigma, p = $pp, n = $num"
@@ -57,13 +58,13 @@ do
 
 		  if [ ${USER} = "ufszczep" ];
 		  then
-		    cat pbs_template.tpl | sed -e "s/\${tmp}/$tmpdir/g" -e "s/\${storage}/$storagedir/g" -e "s/\${alpha}/$alpha/g" -e "s/\${sigma}/$sigma/g" -e "s/\${threads}/$threads/g" -e "s/\${num}/$num/g" -e "s/\${pp}/$pp/g" > $file
+		    cat pbs_analysis_template.tpl | sed -e "s/\${tmp}/$tmpdir/g" -e "s/\${storage}/$storagedir/g" -e "s/\${alpha}/$alpha/g" -e "s/\${sigma}/$sigma/g" -e "s/\${threads}/$threads/g" -e "s/\${num}/$num/g" -e "s/\${pp}/$pp/g" > $file
 		    qsub -f $file >> jobs_ids.txt
 		  else
 		    ./generator.x --alpha $alpha --noise $sigma --storage "$storagedir" --tmp "$tmpdir" --threads $threads --data_file_num $num
 		  fi 
        #  done
-      done
+     # done
     done
 done
 

@@ -85,9 +85,9 @@ void AverageTimeMeasure:: save()
 
 
      char resultsFilename[200];
-     sprintf ( resultsFilename,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_results.txt",settings.getStoragePath(), alpha,beta,eplus,eminus );
+     sprintf ( resultsFilename,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_results.txt",settings.getStoragePath(), alpha,eplus,eminus );
      ofstream results ( resultsFilename );
-     sprintf ( resultsFilename,"alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_results.txt", alpha,beta,eplus,eminus );
+     sprintf ( resultsFilename,"alpha_%1.2f_Ep_%1.1f_Em_%1.1f_results.txt", alpha,eplus,eminus );
 
      results << "#log10( (gamma)/T )\tlog10( (MFPT*T) )\n";
 
@@ -134,14 +134,14 @@ void AverageTimeMeasure:: save()
      }
      results.close();
      char resultsPlotscriptfile[200];
-     sprintf ( resultsPlotscriptfile,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_plot.gnu",settings.getStoragePath(), alpha,beta,eplus,eminus );
+     sprintf ( resultsPlotscriptfile,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_plot.gnu",settings.getStoragePath(), alpha,eplus,eminus );
 
 
      ofstream resultsPlot ( resultsPlotscriptfile );
 
 
      char resultsPlotfile[200];
-     sprintf ( resultsPlotfile,"alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_result.eps",alpha,beta,eplus,eminus );
+     sprintf ( resultsPlotfile,"alpha_%1.2f_Ep_%1.1f_Em_%1.1f_result.eps",alpha,eplus,eminus );
 
 
      resultsPlot << "reset\n";
@@ -175,7 +175,7 @@ void AverageTimeMeasure:: save()
 
      // save extended_data
      char extendedDataFile[200];
-     sprintf ( extendedDataFile,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extdata_mfpt.txt",settings.getStoragePath(), alpha,beta,eplus,eminus );
+     sprintf ( extendedDataFile,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extdata_mfpt.txt",settings.getStoragePath(), alpha,eplus,eminus );
 
      ofstream extended ( extendedDataFile );
 

@@ -33,13 +33,14 @@ int main ( int argc, char **argv )
      double alpha = settings.getJumpsParameter();
      
      
+//     double p = settings.get("GAMMA_P");
      
      Simulation * sim = new Simulation ( &settings );
 
      
     cout << "entering loop"<<endl;
     
-    for (double p = -5.0; p< 4.0; p += 0.1 )
+    for (double p = -5.0; p< 5.0; p += 0.1 )
     {
 
         double gamma = pow(10.0,p);

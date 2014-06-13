@@ -92,15 +92,15 @@ void ExtremeStatsMeasure:: save()
 
 
 
-     sprintf ( quantiles_min_filename,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_min.txt",settings.getStoragePath(), alpha,beta,eplus,eminus );
-     sprintf ( quantiles_max_filename,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_max.txt",settings.getStoragePath(), alpha,beta,eplus,eminus );
+     sprintf ( quantiles_min_filename,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_min.txt",settings.getStoragePath(), alpha,eplus,eminus );
+     sprintf ( quantiles_max_filename,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_max.txt",settings.getStoragePath(), alpha,eplus,eminus );
 
      ofstream quantiles_min_file ( quantiles_min_filename,ios_base::out );
      ofstream quantiles_max_file ( quantiles_max_filename,ios_base::out );
 
      //to samo bez sciezki, do uzycia w skrypcie gnuplota
-     sprintf ( quantiles_min_filename,"alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_min.txt",alpha,beta,eplus,eminus );
-     sprintf ( quantiles_max_filename,"alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_max.txt",alpha,beta,eplus,eminus );
+     sprintf ( quantiles_min_filename,"alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_min.txt",alpha,eplus,eminus );
+     sprintf ( quantiles_max_filename,"alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_max.txt",alpha,eplus,eminus );
 
 
      quantiles_min_file << "#log10(gamma)\tq1\tq2\tq3\tq4\tq5\tq6\tq7\tq8\tq9\t(q9-q1)\tlog10(q9-q1)\n";
@@ -243,13 +243,13 @@ void ExtremeStatsMeasure:: save()
      // gnuplot
 
      char resultsPlotscriptfile[200];
-     sprintf ( resultsPlotscriptfile,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_plot.gnu",settings.getStoragePath(), alpha,beta,eplus,eminus );
+     sprintf ( resultsPlotscriptfile,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_plot.gnu",settings.getStoragePath(), alpha,eplus,eminus );
      ofstream gnuplot_file ( resultsPlotscriptfile,ios_base::out );
 
      char mins_quantile_plotname[200];
      char maxs_quantile_plotname[200];
-     sprintf ( mins_quantile_plotname,"alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_mins_plot_log.eps", alpha,beta,eplus,eminus );
-     sprintf ( maxs_quantile_plotname,"alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_maxs_plot_log.eps", alpha,beta,eplus,eminus );
+     sprintf ( mins_quantile_plotname,"alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_mins_plot_log.eps", alpha,eplus,eminus );
+     sprintf ( maxs_quantile_plotname,"alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_maxs_plot_log.eps", alpha,eplus,eminus );
 
      gnuplot_file<< "reset\n";
 //     gnuplot_file<< "set terminal pngcairo enhanced size 1200,700;\n";
@@ -276,7 +276,7 @@ void ExtremeStatsMeasure:: save()
 
 
      // mediana
-     sprintf ( mins_quantile_plotname,"alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_mins_plot_median.eps", alpha,beta,eplus,eminus );
+     sprintf ( mins_quantile_plotname,"alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_mins_plot_median.eps", alpha,eplus,eminus );
 
      gnuplot_file<< "reset\n";
 //     gnuplot_file<< "set terminal pngcairo enhanced size 1200,700;\n";
@@ -307,7 +307,7 @@ void ExtremeStatsMeasure:: save()
 
 
      gnuplot_file<< "reset\n";
-     sprintf ( mins_quantile_plotname,"alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_mins_plot.eps", alpha,beta,eplus,eminus );
+     sprintf ( mins_quantile_plotname,"alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_mins_plot.eps", alpha,eplus,eminus );
 
 //     gnuplot_file<< "set terminal pngcairo enhanced size 1200,700;\n";
      gnuplot_file<< "set terminal post eps size 12,7 enhanced color font 'Helvetica,35' linewidth 2;";
@@ -354,7 +354,7 @@ void ExtremeStatsMeasure:: save()
 
 
      // mediana
-     sprintf ( maxs_quantile_plotname,"alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_maxs_plot_median.eps", alpha,beta,eplus,eminus );
+     sprintf ( maxs_quantile_plotname,"alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_maxs_plot_median.eps", alpha,eplus,eminus );
 
      gnuplot_file<< "reset\n";
 //     gnuplot_file<< "set terminal pngcairo enhanced size 1200,700;\n";
@@ -385,7 +385,7 @@ void ExtremeStatsMeasure:: save()
 
 
      gnuplot_file<< "reset\n";
-     sprintf ( maxs_quantile_plotname,"alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_maxs_plot.eps", alpha,beta,eplus,eminus );
+     sprintf ( maxs_quantile_plotname,"alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extreme_stats_quantiles_maxs_plot.eps", alpha,eplus,eminus );
 
 //     gnuplot_file<< "set terminal pngcairo enhanced size 1200,700;\n";
      gnuplot_file<< "set terminal post eps size 12,7 enhanced color font 'Helvetica,35' linewidth 2;";
@@ -411,7 +411,7 @@ void ExtremeStatsMeasure:: save()
      ///=============================
      // save extended_data
      char extendedDataFile[200];
-     sprintf ( extendedDataFile,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extdata_minFPT_q9q1.txt",settings.getStoragePath(), alpha,beta,eplus,eminus );
+     sprintf ( extendedDataFile,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extdata_minFPT_q9q1.txt",settings.getStoragePath(), alpha,eplus,eminus );
      ofstream extended ( extendedDataFile );
      extended << extended_data_header << endl;
      extended << alpha << "\t"<< beta;
@@ -425,7 +425,7 @@ void ExtremeStatsMeasure:: save()
      extended << "\t" << minFPT_q9q1_gamma_for_f_minimum;
      extended.close();
 
-     sprintf ( extendedDataFile,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extdata_minFPT_median.txt",settings.getStoragePath(),alpha,beta,eplus,eminus );
+     sprintf ( extendedDataFile,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extdata_minFPT_median.txt",settings.getStoragePath(),alpha,eplus,eminus );
      extended.open ( extendedDataFile );
      extended << extended_data_header << endl;
      extended << alpha << "\t"<< beta;
@@ -440,7 +440,7 @@ void ExtremeStatsMeasure:: save()
      extended.close();
 
 
-     sprintf ( extendedDataFile,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extdata_maxFPT_q9q1.txt",settings.getStoragePath(), alpha,beta,eplus,eminus );
+     sprintf ( extendedDataFile,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extdata_maxFPT_q9q1.txt",settings.getStoragePath(), alpha,eplus,eminus );
      extended.open ( extendedDataFile );
      extended << extended_data_header << endl;
      extended << alpha << "\t"<< beta;
@@ -456,7 +456,7 @@ void ExtremeStatsMeasure:: save()
 
 
 
-     sprintf ( extendedDataFile,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_extdata_maxFPT_median.txt",settings.getStoragePath(),alpha,beta,eplus,eminus );
+     sprintf ( extendedDataFile,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_extdata_maxFPT_median.txt",settings.getStoragePath(),alpha,eplus,eminus );
      extended.open ( extendedDataFile );
      extended << extended_data_header << endl;
      extended << alpha << "\t"<< beta;
@@ -619,7 +619,7 @@ void SingleGammaExtremeStats::saveMinimumsEDF()
 
 
      char edf_values_filename[200];
-     sprintf ( edf_values_filename,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_g%2.8f_edf.txt",settings.getStoragePath(), alpha,beta,eplus,eminus,gamma );
+     sprintf ( edf_values_filename,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_g%2.8f_edf.txt",settings.getStoragePath(), alpha,eplus,eminus,gamma );
 
 
      ofstream edf_values_file ( edf_values_filename,ios_base::out );
@@ -641,7 +641,7 @@ void SingleGammaExtremeStats::saveMinimumsEDF()
      //dystrybuanta minimow
 
      char minimas_edf_values_filename[200];
-     sprintf ( minimas_edf_values_filename,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_g%2.8f_min_edf.txt",settings.getStoragePath(), alpha,beta,eplus,eminus,gamma );
+     sprintf ( minimas_edf_values_filename,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_g%2.8f_min_edf.txt",settings.getStoragePath(), alpha,eplus,eminus,gamma );
 
      // liczymy dystrybuante minimow
      vector<double> * minimas = new vector<double>();
@@ -711,7 +711,7 @@ void SingleGammaExtremeStats::saveMaximumsEDF()
      //dystrybuanta maximow
 
      char maximas_edf_values_filename[200];
-     sprintf ( maximas_edf_values_filename,"%s/alpha_%1.2f_beta_%1.3f_Ep_%1.1f_Em_%1.1f_g%2.8f_max_edf.txt",settings.getStoragePath(), alpha,beta,eplus,eminus,gamma );
+     sprintf ( maximas_edf_values_filename,"%s/alpha_%1.2f_Ep_%1.1f_Em_%1.1f_g%2.8f_max_edf.txt",settings.getStoragePath(), alpha,eplus,eminus,gamma );
 
      // liczymy dystrybuante maximow
      vector<double> * maximas = new vector<double>();

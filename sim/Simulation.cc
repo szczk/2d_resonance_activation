@@ -49,7 +49,7 @@ void Simulation::init()
      this->r_squared = r*r;
      
      
-     this->reset();
+     //this->reset();
 }
 
 

@@ -83,7 +83,14 @@ void Settings::readCommandLineParameters ( int argc, char** argv )
                cout << " new noise type: '" << type << "'" << endl;
                this->set ("NOISE_TYPE", type) ;
           }
-          
+              
+          if( strcmp( "--gamma_p",argv[i]) == 0 && (i+1) < argc ) {
+             //potega gammy
+             double p = atof( argv[i+1] );
+             cout << "new gamma power: " << p << endl;
+             this->set("GAMMA_P", p );    
+          }
+ 
           // usunac kiedy nie bedzie juz potrzebne
           if ( strcmp ( "--data_file_num",argv[i] ) == 0  && ( i+1 ) < argc ) {
                this->setMultipleOutputFilenum ( atoi ( argv[i+1] ) );
