@@ -159,7 +159,7 @@ void ExtremeStatsMeasure:: save()
 
 
      //map<double,SingleGammaExtremeStats *>::iterator it;
-
+cout << "mark1"<<endl;
      //iteracja po gamma
      for ( it = this->extremeStats->begin(); it != this->extremeStats->end(); ++it ) {
           double gamma = ( *it ).first;
@@ -167,10 +167,11 @@ void ExtremeStatsMeasure:: save()
 
           quantiles_min_file << log10 ( gamma );
           quantiles_max_file << log10 ( gamma );
-
+cout << "mark12"<<endl;
           sgex->getMinumumsQuantiles ( quantiles_mins,9 );
+cout << "mark13"<<endl;
           sgex->getMaximumsQuantiles ( quantiles_maxs,9 );
-
+cout << "mark14"<<endl;
 
           for ( int i=0; i<9; i++ ) {
                quantiles_min_file <<"\t" << quantiles_mins[i];
@@ -235,7 +236,7 @@ void ExtremeStatsMeasure:: save()
      }
 
 
-
+cout << "mark2"<<endl;
      quantiles_min_file.close();
      quantiles_max_file.close();
 
@@ -471,7 +472,7 @@ void ExtremeStatsMeasure:: save()
      extended.close();
 
 
-
+cout << "mark3"<<endl;
 }
 
 
@@ -754,6 +755,7 @@ void SingleGammaExtremeStats::getMinumumsQuantiles ( double *valsArray, int size
      vector<SingleGammaExtremeStatsElement *>::iterator it;
      for ( it=elements->begin(); it!=elements->end(); ++it ) {
           minimas->push_back ( ( *it )->getMin() );
+	  cout << ( *it )->getMin() << ",";
      }
 
      sort ( minimas->begin(), minimas->end() );
@@ -766,10 +768,12 @@ void SingleGammaExtremeStats::getMinumumsQuantiles ( double *valsArray, int size
           int k = ceil ( p * minimasSize );
 
           //kwantyl rzedu p
+	  cout << "mark555, k = " << k <<endl;
           double qVal = minimas->at ( k );
           valsArray[q-1] = qVal;
+	  cout << "mark5556"<<endl;
      }
-
+cout << "mark5557"<<endl;
      delete minimas;
 }
 

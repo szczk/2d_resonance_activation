@@ -1,4 +1,4 @@
-DIRS := core tools trajectories analysis sim
+DIRS := core tools analysis sim
 PROGNAME = main
 OBJDIR = obj
 .PHONY: all clean run test

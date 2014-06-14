@@ -55,7 +55,8 @@ int main(int argc , char ** argv)
 
         char dataFile[200];
         
-
+    RunningStat * runningStat = new RunningStat();
+   
     
     DataSource * data = nullptr ;
     
@@ -87,6 +88,7 @@ int main(int argc , char ** argv)
             double time = data->read();
 
 
+	    runningStat->Push(time);
 //             es->fill(time);
 //             result->addValue(gamma,time);
             averageTime = averageTime + ((time - averageTime)/(averageNum + 1.0));
@@ -102,8 +104,14 @@ int main(int argc , char ** argv)
         double averageNew = dichotomicAnalysis->getAverage(gamma);
 
         cout << "gamma=10^"<<p<<"\t MFPT: " << averageTime << " | " << averageNew << endl;;
-
+	
+	double mfpt = runningStat->Mean();
+        double mfpt_err = runningStat->StandardDeviationOfMean(); 
+        cout << "mfpt2 = " << mfpt <<  " \t +- " << mfpt_err << endl; 
+	  
+	  
     delete data;
+    delete runningStat;
     }
     dichotomicAnalysis->save();
 

@@ -25,7 +25,7 @@ void DichotomicAnalysis:: init()
 
      this->measures->push_back ( new AverageTimeMeasure() );
      this->measures->push_back ( new Quantiles() );
-     this->measures->push_back ( new ExtremeStatsMeasure ( 10 ) );
+     //this->measures->push_back ( new ExtremeStatsMeasure ( 10 ) );
 
 }
 
