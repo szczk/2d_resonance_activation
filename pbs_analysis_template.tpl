@@ -22,7 +22,7 @@
 #          Set the name of the job (up to 15 characters, 
 #          no blank spaces, start with alphanumeric character)
 
-#PBS -N 2d_RA_a_${alpha}_s_${sigma}_p_${pp}_${num}
+#PBS -N 2d_RA_a_${alpha}_s_${sigma}_p_${pp}_anls
 
 #          By default, the standard output and error streams are sent
 #          to files in the current working directory with names:

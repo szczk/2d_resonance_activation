@@ -44,8 +44,8 @@ echo "\n"
 export LC_NUMERIC="en_US.UTF-8"
 
 pp=0
-num=20
-for alpha in $(seq -w 0.5 0.5 2.0)
+num=10
+for alpha in $(seq -w 0.5 0.2 1.9)
 do
    for sigma in 1.0 #$(seq -w 0.2 0.2 5.0)
     do
