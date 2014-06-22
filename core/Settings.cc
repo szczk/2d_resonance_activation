@@ -96,8 +96,17 @@ void Settings::readCommandLineParameters ( int argc, char** argv )
                this->setMultipleOutputFilenum ( atoi ( argv[i+1] ) );
           }
 
-
-
+          
+          if ( strcmp ( "--eplus",argv[i] ) == 0  && ( i+1 ) < argc ) {
+	        cout << " new eplus: '" << atof ( argv[i+1] ) << "'" << endl;
+               this->set("eplus", atof ( argv[i+1] ) );
+          }
+          
+          if ( strcmp ( "--eminus",argv[i] ) == 0  && ( i+1 ) < argc ) {
+	       cout << " new minus: '" << atof ( argv[i+1] ) << "'" << endl;
+               this->set("eminus", atof ( argv[i+1] ) );
+          }
+          
      }
 }
 
