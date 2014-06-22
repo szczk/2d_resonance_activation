@@ -89,7 +89,7 @@ module add gcc
 module add gsl
 #module add libs/glibc/2.7
 
-./generator.x --alpha ${alpha} --noise ${sigma} --storage "$SCRATCH/2d_RA/"  --tmp "$SCRATCH" --prefix "RA" --gamma_p ${pp}  --data_file_num ${num}  > $logs/ra_2d_a${alpha}_s${sigma}_p_${pp}_n${num}.log
+./generator.x --alpha ${alpha} --noise ${sigma} --storage "$SCRATCH/2d_RA_as/"  --tmp "$SCRATCH" --prefix "RA" --gamma_p ${pp}  --data_file_num ${num}  > $logs/ra_2d_a${alpha}_s${sigma}_p_${pp}_n${num}.log
 
 
 
