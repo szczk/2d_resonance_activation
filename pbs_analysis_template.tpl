@@ -89,7 +89,7 @@ module add gcc
 module add gsl
 #module add libs/glibc/2.7
 
-./analysis.x --alpha ${alpha} --noise ${sigma} --storage "$STORAGE/2d_RA/" --data "$SCRATCH/2d_RA/" --tmp "$SCRATCH" --prefix "RA" --gamma_p ${pp}  --data_file_num ${num}  > $logs/ra_2d_analysis_a${alpha}_s${sigma}_p_${pp}_n${num}.log
+./analysis.x --alpha ${alpha} --noise ${sigma} --storage "$STORAGE/2d_RA/" --data "$SCRATCH/2d_RA/" --tmp "$SCRATCH" --gamma_p ${pp}  --data_file_num ${num}  > $logs/ra_2d_analysis_a${alpha}_s${sigma}_p_${pp}_n${num}.log
 
 
 
