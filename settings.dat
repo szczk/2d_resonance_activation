@@ -35,8 +35,8 @@ T = 1.0
 # is  E+ = eplus * T
 # E- = eminus * T
 
-eplus=8.0
-eminus=0.0
+eplus=4.0
+eminus=4.0
 
 
 

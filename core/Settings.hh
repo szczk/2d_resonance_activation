@@ -65,8 +65,8 @@ private:
      // path for input .dat files
      string dataPath ;
 
-     // suffix for output files
-     string filesSuffix;
+     // prefix for output files
+     string filesPrefix;
 
      string normalizePath ( const char * );
      
@@ -272,12 +272,12 @@ public:
      }
 
 
-     void setFilesSuffix ( const char * sufix ) {
-          this->filesSuffix = normalizePath ( sufix );
+     void setFilesPrefix ( const char * sufix ) {
+          this->filesPrefix = normalizePath ( sufix );
      }
 
-     const char * getFilesSuffix() {
-          return this->filesSuffix.c_str();
+     const char * getFilesPrefix() {
+          return this->filesPrefix.c_str();
      }
 
      bool isDumpTime(int iterationNum);
