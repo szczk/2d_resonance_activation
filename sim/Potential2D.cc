@@ -107,18 +107,23 @@ vec Potential2D::getValue(double &x, double &y, long double &t)
     }
     else {
     
-      if ( t >= timeOfNextSwitch )
-      {
-          this->switchBarrier(t);
-      }
+      if(top_value!=bottom_value) { // if values are the same, no need for this
+	if ( t >= timeOfNextSwitch )
+	{
+	    this->switchBarrier(t);
+	}
 
-      if ( this->state == barrier_state:: up_state )
-      {
-          value = top_value;
+	if ( this->state == barrier_state:: up_state )
+	{
+	    value = top_value;
+	}
+	else // if (this->state = barrier_state :: down_state )
+	{
+	    value = bottom_value;
+	}
       }
-      else // if (this->state = barrier_state :: down_state )
-      {
-          value = bottom_value;
+      else {
+	value = top_value;
       }
       
       V.x = (value * x)/(sqr);

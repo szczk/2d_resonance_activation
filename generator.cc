@@ -42,7 +42,7 @@ int main ( int argc, char **argv )
 
      //for ( double p = -5.0; p< 5.0; p += 0.1 ) 
      {
-       double p = 1.0;
+       double p = 0.0;
 
           double gamma = pow ( 10.0,p );
 

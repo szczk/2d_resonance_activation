@@ -23,8 +23,11 @@ X0 = 0.0
 # circle radius 
 radius = 1.0
 
-#n
+#noise
 NOISE_D = 1.0
+# 1 = jednorodny
+# 2 = dyskretny
+NOISE_TYPE = 1
 
 
 #noise intensity

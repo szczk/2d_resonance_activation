@@ -46,7 +46,7 @@ int main ( int argc , char ** argv )
 
      //for ( double p = -5.0; p< 5.0; p += 0.1 ) 
      {
-       double p = 1.0;
+       double p = 0.0;
 
           double gamma = pow ( 10.0,p );
           double averageTime = 0.0;
@@ -88,6 +88,7 @@ int main ( int argc , char ** argv )
 
                runningStat->Push ( time );
 
+// 	       cout << " time = " << time <<endl;
 	       
                averageTime = averageTime + ( ( time - averageTime ) / ( averageNum + 1.0 ) );
                averageNum += 1.0;
