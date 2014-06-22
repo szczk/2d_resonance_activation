@@ -110,7 +110,7 @@ void AverageTimeMeasure:: save()
           double gamma = ( *it ).first;
           double averageTime = ( ( *it ).second )->getAverage();
           double averageTime_err = ( ( *it ).second )->getError();
-	  
+
           // do extended data
           if ( it==this->averages->begin() )  {
                f_minus_infinity = averageTime;
@@ -120,9 +120,9 @@ void AverageTimeMeasure:: save()
 
           double X = log10 ( ( gamma * L*L ) /T );
           double Y = log10 ( ( averageTime * T ) / ( L*L ) );
-	  double Y_err = abs( averageTime_err/(Y * log(10.0))  ) ;
-	  
-	  
+          double Y_err = abs ( averageTime_err/ ( Y * log ( 10.0 ) ) ) ;
+
+
           results << X << "\t" << Y <<"\t"<< Y_err <<endl;
 
           if ( smallestMFPT > Y ) {

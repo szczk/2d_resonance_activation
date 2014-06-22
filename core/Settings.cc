@@ -51,12 +51,12 @@ void Settings::readCommandLineParameters ( int argc, char** argv )
                cout << " new data path: '" << argv[i+1] << "'" << endl;
                this->setDataPath ( argv[i+1] ) ;
           }
-          
-          if ( strcmp ( "--suffix",argv[i] ) == 0  && ( i+1 ) < argc ) {
-               cout << " new files suffix: '" << argv[i+1] << "'" << endl;
-               this->setFilesSuffix ( argv[i+1] ) ;
+
+          if ( strcmp ( "--prefix",argv[i] ) == 0  && ( i+1 ) < argc ) {
+               cout << " new files prefix: '" << argv[i+1] << "'" << endl;
+               this->setFilesPrefix ( argv[i+1] ) ;
           }
-          
+
 
           if ( strcmp ( "--n",argv[i] ) == 0  && ( i+1 ) < argc ) {
                cout << " new ntrajectories: '" << argv[i+1] << "'" << endl;
@@ -68,35 +68,35 @@ void Settings::readCommandLineParameters ( int argc, char** argv )
                this->setNumThreads ( atoi ( argv[i+1] ) );
           }
 
-          
-          
+
+
           if ( strcmp ( "--pt",argv[i] ) == 0  && ( i+1 ) < argc ) {
-	       int type = atoi ( argv[i+1] ) ;
-	       if(type!=2 && type!=4) type = 1;
+               int type = atoi ( argv[i+1] ) ;
+               if ( type!=2 && type!=4 ) type = 1;
                cout << " new potential type: '" << type << "'" << endl;
-               this->set ("POTENTIAL_TYPE", type );
+               this->set ( "POTENTIAL_TYPE", type );
           }
-          
+
           if ( strcmp ( "--nt",argv[i] ) == 0  && ( i+1 ) < argc ) {
-	       int type = atoi ( argv[i+1] ) ;
-	       if(type!=1 && type!=2) type = 1;
+               int type = atoi ( argv[i+1] ) ;
+               if ( type!=1 && type!=2 ) type = 1;
                cout << " new noise type: '" << type << "'" << endl;
-               this->set ("NOISE_TYPE", type) ;
+               this->set ( "NOISE_TYPE", type ) ;
           }
-              
-          if( strcmp( "--gamma_p",argv[i]) == 0 && (i+1) < argc ) {
-             //potega gammy
-             double p = atof( argv[i+1] );
-             cout << "new gamma power: " << p << endl;
-             this->set("GAMMA_P", p );    
+
+          if ( strcmp ( "--gamma_p",argv[i] ) == 0 && ( i+1 ) < argc ) {
+               //potega gammy
+               double p = atof ( argv[i+1] );
+               cout << "new gamma power: " << p << endl;
+               this->set ( "GAMMA_P", p );
           }
- 
+
           // usunac kiedy nie bedzie juz potrzebne
           if ( strcmp ( "--data_file_num",argv[i] ) == 0  && ( i+1 ) < argc ) {
                this->setMultipleOutputFilenum ( atoi ( argv[i+1] ) );
           }
-          
-          
+
+
 
      }
 }
@@ -119,9 +119,9 @@ void Settings:: init()
      this->setStoragePath ( "./" );
      this->setTmpPath ( "/tmp/" );
      this->setDataPath ( "./" );
-     this->setFilesSuffix("");
+     this->setFilesPrefix ( "" );
      this->loadFromFile();
-     
+
      this->loadDumpTimes();
 }
 
@@ -235,40 +235,41 @@ string  Settings::normalizePath ( const char* str )
      return cc;
 }
 
-void Settings::loadDumpTimes() {
-     
-     double dump_every = this->get("dump_every");
-     double maxT = this->get ( "maxT");
-     double dt = this->get("dt");
-     
-     
-     if(dump_every > 0.0 && dump_every < maxT ) {
-       cout << "dump iterations: ";
-       
-       this->dumpTimes = new unordered_set<int>();
-       
-       for( double t = dump_every ; t < maxT; t+=dump_every ) {
-         int iter = t/dt;
-         cout << iter << ",";
-         
-         this->dumpTimes->insert( iter );
-       }
-       
-       
-       cout << endl;
+void Settings::loadDumpTimes()
+{
+
+     double dump_every = this->get ( "dump_every" );
+     double maxT = this->get ( "maxT" );
+     double dt = this->get ( "dt" );
+
+
+     if ( dump_every > 0.0 && dump_every < maxT ) {
+          cout << "dump iterations: ";
+
+          this->dumpTimes = new unordered_set<int>();
+
+          for ( double t = dump_every ; t < maxT; t+=dump_every ) {
+               int iter = t/dt;
+               cout << iter << ",";
+
+               this->dumpTimes->insert ( iter );
+          }
+
+
+          cout << endl;
      }
 }
 
-bool Settings::isDumpTime(int iteration) {
-          if(this->dumpTimes!=nullptr) {      
+bool Settings::isDumpTime ( int iteration )
+{
+     if ( this->dumpTimes!=nullptr ) {
 //             cout << setprecision(30) << t<<endl;
 //             for ( auto it = myset.begin(); it != myset.end(); ++it )
 //     std::cout << " " << *it;
-            return this->dumpTimes->count( iteration ); 
-          }
-          else {
-            cout <<"nullptr"<<endl;
-            return false;
-          }
+          return this->dumpTimes->count ( iteration );
+     } else {
+          cout <<"nullptr"<<endl;
+          return false;
      }
+}
 
