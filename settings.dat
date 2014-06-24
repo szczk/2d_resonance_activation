@@ -1,4 +1,4 @@
-ntrajectories = 1000000
+ntrajectories = 100000
 
 #jumps parameter (superdiffusion)
 alpha = 2.0
@@ -38,8 +38,8 @@ T = 1.0
 # is  E+ = eplus * T
 # E- = eminus * T
 
-eplus=4.0
-eminus=4.0
+eplus=8.0
+eminus=0.0
 
 
 

@@ -22,7 +22,7 @@
 #          Set the name of the job (up to 15 characters, 
 #          no blank spaces, start with alphanumeric character)
 
-#PBS -N 2d_RA_a_${alpha}_s_${sigma}_p_${pp}_anls
+#PBS -N 2d_RA_a_${alpha}_s_${sigma}_p_${pp}_ep_${ep}_em_${em}_anls
 
 #          By default, the standard output and error streams are sent
 #          to files in the current working directory with names:
@@ -87,9 +87,9 @@ logs=$storagedir/logs
 module add gcc 
 # module add fftw
 module add gsl
-#module add libs/glibc/2.7
+#emodule add libs/glibc/2.7
 
-./analysis.x --alpha ${alpha} --noise ${sigma} --storage "$STORAGE/2d_RA/" --data "$SCRATCH/2d_RA/" --tmp "$SCRATCH" --gamma_p ${pp}  --data_file_num ${num}  > $logs/ra_2d_analysis_a${alpha}_s${sigma}_p_${pp}_n${num}.log
+./analysis.x --alpha ${alpha} --noise ${sigma} --storage "$STORAGE/2d_RA_as/" --data "$SCRATCH/2d_RA_as/" --tmp "$SCRATCH" --gamma_p ${pp} --eplus ${ep} --eminus ${em}  --data_file_num ${num} --prefix "RA" > $logs/ra_2d_analysis_a${alpha}_s${sigma}_p_${pp}_n${num}_ep${ep}_em${em}.log
 
 
 
