@@ -153,8 +153,8 @@ double Randoms:: getMittagLeffler ( double beta )
 
 double* Randoms::getAlphaStableVector ( double alpha , double sigma )
 {
-     if(alpha==2.0) return this->getGaussVector(sigma);
-  
+     if ( alpha==2.0 ) return this->getGaussVector ( sigma );
+
      double * v = new double[2];
 
      // to generate alpha-stable random vector
@@ -177,6 +177,25 @@ double* Randoms::getAlphaStableVector ( double alpha , double sigma )
      v[0] = A * this->getGauss ( sigma );
      v[1] = A * this->getGauss ( sigma );
 
+
+     return v;
+}
+
+
+double* Randoms::getRadialLF ( double alpha, double sigma )
+{
+     double * v = new double[2];
+     //from Vahabi et. al.  2012
+     // arXiv: 1211.1849v1
+
+     // generate angle from uniform distribution [0,pi]
+     double angle = getUniform ( 0.0, M_PI );
+
+     //generate jump length from alpha-stable
+     double r = this->getLevyStable ( alpha, 0.0, sigma, 0.0 );
+
+     v[0] = r * cos ( angle );
+     v[1] = r * sin ( angle );
 
      return v;
 }
@@ -236,16 +255,16 @@ double* Randoms::getDicreteAlphaStableVector ( double alpha, double sigma )
 }
 
 
-double Randoms:: getSpecialDist1(double lambda)
+double Randoms:: getSpecialDist1 ( double lambda )
 {
-    if(lambda==0.0) {
-      cerr << "dzielenie przez 0!" <<endl;
-      throw -1;
-    }
-    double u = this->getUniform(0,1.0);
-    
-    double x =(-1.0/lambda)  * log( u );
-  
-    return x;
+     if ( lambda==0.0 ) {
+          cerr << "dzielenie przez 0!" <<endl;
+          throw -1;
+     }
+     double u = this->getUniform ( 0,1.0 );
+
+     double x = ( -1.0/lambda )  * log ( u );
+
+     return x;
 }
 

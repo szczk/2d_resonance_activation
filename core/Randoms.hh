@@ -71,7 +71,19 @@ public:
 //   double getLevy(double alpha);
      double getLevy2 ( double mu );
 
-
+//************************************/
+     
+          
+     /**
+      * Returns a alpha stable random 2D vector.
+      * Generated as 'radial 2 dimensional levy flight'
+      * or 'spherical LF' 
+      * REMEMBER TO MANUALY REMOVE THE RETURNED ARRAY
+      */
+     double * getRadialLF(double alpha,double sigma);
+     
+     
+     
      /**
       * Returns a alpha stable random 2D vector
       * REMEMBER TO MANUALY REMOVE THE RETURNED ARRAY
@@ -91,11 +103,14 @@ public:
       */
      double * getDicreteAlphaStableVector ( double alpha, double sigma );
      
-     
-     
+
          // losowanie z rozkladu
     // f(t) = lamba * e^(-lambda t)
     double getSpecialDist1(double lambda);
+    
+    
+    
+    
 };
 
 #endif
